@@ -6,6 +6,9 @@ using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
+
+
+
 namespace ChefsNDishes.Controllers;
 
 public class HomeController : Controller
@@ -50,12 +53,36 @@ public class HomeController : Controller
         return View("NewChef");
     }
 
+
+
+    [HttpPost]
+    [Route("dishes/new")]
+    public IActionResult ProcesaDish(Dish newDish)
+    {
+        if (ModelState.IsValid)
+        {
+            _context.Dishes.Add(newDish);
+            _context.SaveChanges();
+            return RedirectToAction("Dishes");
+        }
+        return View("NewDish");
+    }
+
     [HttpGet("add/dish")]
     public IActionResult NewDish()
     {
-        var allChefs = _context.Chefs.ToList();
-        ViewBag.AllChefs = allChefs;
+        List<Chef> chefList = _context.Chefs.ToList();
+        ViewBag.AllChefs = chefList;
         return View("NewDish");
+    }
+
+    [HttpGet]
+    [Route("dishes")]
+    public IActionResult Dishes()
+    {
+        List<Dish> AllDish = _context.Dishes.Include(d => d.Creator).ToList();
+
+        return View("Dishes", AllDish);
     }
 
 

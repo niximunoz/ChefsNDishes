@@ -18,8 +18,9 @@
             {
                 <tr>
                     <td> @dish.Name</td>
-                    @* <td> @chef.Genero </td>
-                    <td> @chef.Anio </td> *@
+                    <td> @dish.Creator.FirstName @dish.Creator.LastName</td>
+                    <td>@dish.Tastiness</td>
+                    <td> @dish.Calories</td>
                 </tr>
             }
         </tbody>

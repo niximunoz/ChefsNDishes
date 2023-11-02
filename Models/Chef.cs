@@ -34,9 +34,11 @@ public class AgeRegistrationAttribute : ValidationAttribute
         {
             var today = DateTime.Today;
             var age = today.Year - dateOfBirth.Year;
-            if (dateOfBirth.Date > today.AddYears(-age))
+            if (dateOfBirth.Date > today.Date)
             {
-                // Si la fecha de nacimiento no cumple 
+                return new ValidationResult("La fecha no puede ser mayor al dia de hoy");
+            }
+            if(age < 18){
                 return new ValidationResult("El chef debe ser mayor de 18 años");
             }
         }
